@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPI Load Tester · Kangoolutions</title>
+  <link rel="icon" href="ds/assets/bildmarke.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="ds/styles.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="topbar">
+    <img src="ds/assets/logo-wortbildmarke-white-trim.png" alt="Kangoolutions" class="topbar-logo">
+    <span class="topbar-title">CPI Load Tester</span>
+    <div class="topbar-right">
+      <span id="global-status" class="badge badge-neutral"><span class="dot"></span><span class="label">Bereit</span></span>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="page-head">
+      <h2>Lasttest · Cloud Integration</h2>
+      <h1>Ordner rein, <span class="accent">Last</span> raus.</h1>
+      <p class="lead">Ordner wählen, Endpunkt setzen, Takt vorgeben. Jede Datei geht genau einmal an den iFlow – mit MPL-ID pro Nachricht.</p>
+    </section>
+
+    <div class="setup-grid">
+      <!-- 01 Verbindung -->
+      <section class="card">
+        <div class="card-kicker"><span class="step" style="--c:var(--accent-teal)">01</span>Verbindung</div>
+        <h3>Endpunkt &amp; OAuth</h3>
+
+        <label class="field">
+          <span class="field-label">Endpoint-URL</span>
+          <input id="endpoint_url" type="url" placeholder="https://&lt;tenant&gt;.it-cpi0xx-rt.cfapps…/http/…" autocomplete="off" data-persist>
+        </label>
+        <label class="field">
+          <span class="field-label">Token-URL</span>
+          <input id="token_url" type="url" placeholder="https://&lt;subdomain&gt;.authentication…/oauth/token" autocomplete="off" data-persist>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Client-ID</span>
+            <input id="client_id" type="text" autocomplete="off" data-persist>
+          </label>
+          <label class="field">
+            <span class="field-label">Client Secret</span>
+            <input id="client_secret" type="password" autocomplete="new-password">
+          </label>
+        </div>
+
+        <div id="servicekey-box" class="servicekey" hidden>
+          <label class="field">
+            <span class="field-label">Service Key (JSON)</span>
+            <textarea id="servicekey" rows="5" spellcheck="false" placeholder='{"oauth": {"clientid": "…", "clientsecret": "…", "url": "…", "tokenurl": "…"}}'></textarea>
+          </label>
+          <div class="btn-row">
+            <button class="btn btn-primary btn-sm" id="servicekey-apply" type="button">Übernehmen</button>
+            <button class="btn btn-ghost btn-sm" id="servicekey-cancel" type="button">Abbrechen</button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary btn-sm" id="servicekey-open" type="button">Service Key einfügen</button>
+          <button class="btn btn-secondary btn-sm" id="auth-test" type="button">Token testen</button>
+        </div>
+        <div id="auth-result" class="inline-result" aria-live="polite"></div>
+        <p class="hint">Das Secret bleibt im Speicher der App und wird nie in der Historie abgelegt.</p>
+      </section>
+
+      <!-- 02 Dateien -->
+      <section class="card">
+        <div class="card-kicker"><span class="step" style="--c:var(--accent-blue)">02</span>Dateien</div>
+        <h3>Ordner wählen</h3>
+
+        <div class="browser-head">
+          <nav id="breadcrumb" class="breadcrumb" aria-label="Ordnerpfad"></nav>
+          <button class="btn btn-ghost btn-xs" id="folder-refresh" type="button" title="Ordner neu einlesen (Cache verwerfen)">Neu einlesen</button>
+        </div>
+        <ul id="folder-list" class="folder-list"></ul>
+        <div id="folder-info" class="folder-info"></div>
+
+        <label class="field field-tight">
+          <span class="field-label">Dateifilter <small>mehrere mit Komma</small></span>
+          <input id="pattern" type="text" value="*" placeholder="*.xml, *.edi" data-persist>
+        </label>
+        <label class="check check-spaced">
+          <input id="recursive" type="checkbox" data-persist>
+          <span>Unterordner einbeziehen</span>
+        </label>
+        <div id="preview-result" class="preview" aria-live="polite"></div>
+      </section>
+
+      <!-- 03 Last -->
+      <section class="card">
+        <div class="card-kicker"><span class="step" style="--c:var(--accent-indigo)">03</span>Last</div>
+        <h3>Takt &amp; Payload</h3>
+
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Parallelität</span>
+            <input id="concurrency" type="number" min="1" max="500" value="10" data-persist>
+          </label>
+          <label class="field">
+            <span class="field-label">Rate-Limit <small>msg/s</small></span>
+            <input id="rate_limit" title="0 = unbegrenzt" type="number" min="0" max="10000" step="0.1" value="0" data-persist>
+          </label>
+        </div>
+        <p class="hint hint-row">Rate-Limit 0 = unbegrenzt · Max. Dateien 0 = alle.</p>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Max. Dateien</span>
+            <input id="max_files" title="0 = alle Dateien" type="number" min="0" value="0" data-persist>
+          </label>
+          <label class="field">
+            <span class="field-label">Timeout <small>s</small></span>
+            <input id="timeout_s" type="number" min="1" max="600" value="60" data-persist>
+          </label>
+        </div>
+        <div class="smoke-row">
+          <span class="field-label">Smoke-Test</span>
+          <button class="chip" type="button" data-smoke="1">1</button>
+          <button class="chip" type="button" data-smoke="5">5</button>
+          <button class="chip" type="button" data-smoke="10">10</button>
+          <button class="chip" type="button" data-smoke="100">100</button>
+          <button class="chip" type="button" data-smoke="0">alle</button>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span class="field-label">Methode</span>
+            <select id="method" data-persist>
+              <option>POST</option>
+              <option>PUT</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="field-label">Content-Type</span>
+            <input id="content_type" type="text" value="auto" list="content-types" data-persist>
+            <datalist id="content-types">
+              <option value="auto"></option>
+              <option value="application/xml"></option>
+              <option value="application/json"></option>
+              <option value="text/plain"></option>
+              <option value="application/octet-stream"></option>
+            </datalist>
+          </label>
+        </div>
+        <label class="field">
+          <span class="field-label">Auto-Pause nach N Fehlern in Folge <small>0 = aus</small></span>
+          <input id="max_consecutive_failures" type="number" min="0" value="100" data-persist>
+        </label>
+
+        <label class="check">
+          <input id="placeholders" type="checkbox" data-persist>
+          <span>Platzhalter im Payload ersetzen</span>
+        </label>
+        <p class="hint mono-hint">{{uuid}} · {{seq}} · {{filename}} · {{timestamp}} · {{epoch_ms}} – in Headern immer aktiv.</p>
+
+        <div class="headers">
+          <span class="field-label">Custom Header</span>
+          <div id="header-rows"></div>
+          <button class="btn btn-ghost btn-sm" id="header-add" type="button">+ Header hinzufügen</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="action-bar">
+      <div id="plan-summary" class="plan-summary">Ordner und Endpunkt wählen, dann geht's los.</div>
+      <button class="btn btn-gradient" id="start" type="button">Lauf starten <span aria-hidden="true">→</span></button>
+    </div>
+
+    <!-- Live -->
+    <section class="live" id="live">
+      <div id="live-empty" class="live-empty">
+        <img src="ds/assets/icons/cloud-integration.svg" alt="" width="72" height="72">
+        <div>
+          <h4>Noch kein Lauf aktiv.</h4>
+          <p>Sobald ein Lauf startet, erscheinen hier Fortschritt, Durchsatz, Latenzen und Fehler – live.</p>
+        </div>
+      </div>
+
+      <div id="live-body" hidden>
+        <div class="live-head">
+          <div>
+            <h2 id="live-kicker">Live · Lauf</h2>
+            <h3 id="live-title">–</h3>
+          </div>
+          <div class="btn-row live-controls">
+            <button class="btn btn-secondary btn-sm" id="btn-pause" type="button">Pausieren</button>
+            <button class="btn btn-primary btn-sm" id="btn-unpause" type="button">Fortsetzen</button>
+            <button class="btn btn-danger btn-sm" id="btn-stop" type="button">Stoppen</button>
+          </div>
+        </div>
+        <div id="live-message" class="banner" hidden></div>
+
+        <div class="progress">
+          <div class="progress-track"><div class="progress-ok" id="progress-ok"></div><div class="progress-failed" id="progress-failed"></div></div>
+          <div class="progress-label"><span id="progress-text" class="num">0 / 0</span><span id="progress-pct" class="num">0 %</span></div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-label"><i style="--c:var(--accent-teal)"></i>Gesendet</div><div class="kpi-value num" id="k-sent">0</div><div class="kpi-caption" id="k-sent-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label"><i style="--c:var(--success-500)"></i>Erfolgreich</div><div class="kpi-value num" id="k-ok">0</div><div class="kpi-caption" id="k-ok-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label"><i style="--c:var(--danger-500)"></i>Fehler</div><div class="kpi-value num" id="k-failed">0</div><div class="kpi-caption" id="k-failed-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label"><i style="--c:var(--accent-violet)"></i>In Flight</div><div class="kpi-value num" id="k-inflight">0</div><div class="kpi-caption" id="k-inflight-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label">Durchsatz aktuell</div><div class="kpi-value num"><span id="k-rate">0</span><small>msg/s</small></div><div class="kpi-caption" id="k-rate-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label">Latenz p95</div><div class="kpi-value num"><span id="k-p95">–</span></div><div class="kpi-caption num" id="k-lat-cap">&nbsp;</div></div>
+          <div class="kpi"><div class="kpi-label">Laufzeit</div><div class="kpi-value num" id="k-elapsed">0 s</div><div class="kpi-caption" id="k-elapsed-cap">aktive Zeit, ohne Pausen</div></div>
+          <div class="kpi"><div class="kpi-label">Restzeit</div><div class="kpi-value num" id="k-eta">–</div><div class="kpi-caption" id="k-eta-cap">&nbsp;</div></div>
+        </div>
+
+        <div class="live-grid">
+          <div class="card">
+            <div class="chart-head">
+              <h4>Durchsatz &amp; Latenz</h4>
+              <div class="legend"><span><i class="lg-rate"></i>msg/s</span><span><i class="lg-p95"></i>p95 ms</span></div>
+            </div>
+            <div id="chart" class="chart"></div>
+          </div>
+          <div class="card">
+            <h4>Während des Laufs nachregeln</h4>
+            <div class="field-row">
+              <label class="field">
+                <span class="field-label">Parallelität</span>
+                <input id="live-concurrency" type="number" min="1" max="500">
+              </label>
+              <label class="field">
+                <span class="field-label">Rate-Limit <small>msg/s</small></span>
+                <input id="live-rate" type="number" min="0" max="10000" step="0.1">
+              </label>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="live-apply" type="button">Übernehmen</button>
+            <div class="codes-head">Statuscodes</div>
+            <div id="status-codes" class="codes"></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-title"><h4>Letzte Fehler</h4><span class="hint" id="errors-hint">max. 50, neueste zuerst</span></div>
+          <div class="table-scroll">
+            <table class="table">
+              <thead><tr><th>Zeit</th><th>Datei</th><th>Code</th><th>MPL-ID</th><th>Meldung</th></tr></thead>
+              <tbody id="errors-body"><tr><td colspan="5" class="empty">Keine Fehler.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historie -->
+    <section class="history">
+      <h2>Historie</h2>
+      <h3 class="section-title">Letzte Läufe</h3>
+      <div class="table-card">
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr><th>Lauf</th><th>Ordner</th><th>Status</th><th class="r">Ergebnis</th><th class="r">Ø msg/s</th><th class="r">p95</th><th class="r">Aktionen</th></tr>
+            </thead>
+            <tbody id="history-body"><tr><td colspan="7" class="empty">Noch keine Läufe.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

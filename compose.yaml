@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    image: cpiload:latest
+    container_name: cpiload
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      # Nur lokal erreichbar – die Oberfläche hat keinen Login.
+      - "127.0.0.1:${PORT:-8090}:8080"
+    volumes:
+      # Host-Ordner mit den Testdateien, read-only. In .env über HOST_DATA_DIR setzen.
+      - ${HOST_DATA_DIR:-./testdata}:/data:ro
+      - cpiload_state:/state
+    stop_grace_period: 30s
+    restart: unless-stopped
+
+volumes:
+  cpiload_state:

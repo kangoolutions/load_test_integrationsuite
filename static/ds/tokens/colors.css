@@ -1,0 +1,104 @@
+/* Kangoolutions — Farbsystem.
+   Signatur: Violett → Teal Verlauf (Wort-/Bildmarke). Navy trägt dunkle Flächen,
+   Nebel (#FAFCFC) ist die ruhige helle Fläche — sie ersetzt das alte Cream #FFFFE1. */
+
+:root{
+  /* ---- Brand core ---- */
+  --violet-500:#7D6EFF;
+  --teal-500:#00AFB4;
+  --navy-500:#282D5A;
+  --mist:#FAFCFC;
+  --white:#FFFFFF;
+
+  /* Verlaufsstopps der Wortmarke — als Akzentleiter für Reihen von vier */
+  --accent-teal:#00AFB4;
+  --accent-blue:#3A93CE;
+  --accent-indigo:#6479E4;
+  --accent-violet:#7D6EFF;
+
+  /* ---- Violett-Skala ---- */
+  --violet-50:#F2F0FF;
+  --violet-100:#E5E2FF;
+  --violet-200:#CCC6FF;
+  --violet-300:#B0A7FF;
+  --violet-400:#968AFF;
+  --violet-600:#6353E6;
+  --violet-700:#4C3EC2;
+
+  /* ---- Teal-Skala ---- */
+  --teal-50:#E6F7F7;
+  --teal-100:#C7EEEF;
+  --teal-200:#8FDEDF;
+  --teal-300:#4FCBCE;
+  --teal-400:#1FBBBF;
+  --teal-600:#00939A;
+  --teal-700:#00767D;
+
+  /* ---- Navy-Skala (dunkle Flächen) ---- */
+  --navy-50:#E9EAF2;
+  --navy-100:#C3C6DA;
+  --navy-200:#8A8FB5;
+  --navy-300:#565C8F;
+  --navy-400:#3E4373;
+  --navy-600:#20244A;
+  --navy-700:#191C3A;
+  --navy-800:#13152C;
+
+  /* ---- Neutrals (navy-getönt) ---- */
+  --gray-50:#F7F7FA;
+  --gray-100:#EFEFF4;
+  --gray-200:#E1E2EA;
+  --gray-300:#C9CBD8;
+  --gray-400:#A3A6BB;
+  --gray-500:#7C7F99;
+  --gray-600:#5C5F7A;
+
+  /* ---- Signature-Verläufe ---- */
+  --gradient-brand:linear-gradient(145deg,#7D6EFF 0%,#00AFB4 100%); /* @kind color */
+  --gradient-brand-reverse:linear-gradient(135deg,#00AFB4 0%,#7D6EFF 100%); /* @kind color */ /* Social/LinkedIn */
+  --gradient-brand-soft:linear-gradient(145deg,#F2F0FF 0%,#E6F7F7 100%); /* @kind color */
+  --gradient-brand-deep:linear-gradient(145deg,#4C3EC2 0%,#00767D 100%); /* @kind color */
+  --gradient-brand-bar:linear-gradient(90deg,#00AFB4 0%,#3A93CE 34%,#6479E4 67%,#7D6EFF 100%); /* @kind color */ /* Kante, Zeitstrahl, Trennlinie */
+
+  /* ---- Status / Sentiment ---- */
+  --success-600:#12855C;
+  --success-500:#17A673;
+  --success-100:#DCF3EA;
+  --warning-600:#B36A10;
+  --warning-500:#E08A1E;
+  --warning-100:#FCEEDB;
+  --danger-600:#C22B41;
+  --danger-500:#E0455A;
+  --danger-100:#FBE3E7;
+  --info-600:#6353E6;
+  --info-500:#7D6EFF;
+  --info-100:#E5E2FF;
+
+  /* ---- Semantisch: Flächen ---- */
+  --surface-page:#FFFFFF;
+  --surface-subtle:#FAFCFC;      /* Nebel */
+  --surface-muted:#F5F8F9;       /* Hellgrau der Social-Vorlagen */
+  --surface-card:#FFFFFF;
+  --surface-inverse:#282D5A;     /* Navy */
+  --surface-inverse-raised:#343A6E;
+  --surface-inverse-glass:rgba(255,255,255,0.06);
+  --surface-brand:var(--gradient-brand);
+
+  /* ---- Semantisch: Text ---- */
+  --text-primary:#282D5A;
+  --text-secondary:#565C90;
+  --text-muted:#8A8FB5;
+  --text-inverse:#FFFFFF;
+  --text-inverse-secondary:#B8BCE0;
+  --text-accent:#6353E6;
+  --text-accent-teal:#00AFB4;
+  --text-link:#6353E6;
+
+  /* ---- Semantisch: Rahmen ---- */
+  --border-default:#E1E2EA;
+  --border-strong:#C9CBD8;
+  --border-subtle:#EFEFF4;
+  --border-inverse:rgba(255,255,255,0.16);
+  --border-focus:#7D6EFF;
+  --focus-ring:0 0 0 3px rgba(125,110,255,0.28);
+}

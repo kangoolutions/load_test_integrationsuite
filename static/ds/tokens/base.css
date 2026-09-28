@@ -1,0 +1,18 @@
+/* Kangoolutions — Basis-Elementstile */
+
+body{font:var(--type-body);color:var(--text-primary);background:var(--surface-page);margin:0;-webkit-font-smoothing:antialiased}
+
+/* Helvetica Neue Bold ausschliesslich für H1. */
+h1{font-family:var(--font-display);font-weight:var(--weight-display);color:var(--text-primary);letter-spacing:var(--letter-display);margin:0;text-wrap:balance}
+
+h3,h4{font-family:var(--font-body);font-weight:var(--weight-demibold);color:var(--text-primary);margin:0;text-wrap:balance}
+
+/* H2 ist der Kicker: Poppins, Versalien, weit gesperrt — steht ÜBER der H1. */
+h2{font:var(--type-h2);letter-spacing:var(--letter-h2);text-transform:uppercase;color:var(--text-accent-teal);margin:0}
+
+p{text-wrap:pretty}
+
+a{color:var(--text-link);text-decoration:none}
+a:hover{color:var(--violet-700);text-decoration:underline}
+
+::selection{background:var(--violet-200)}

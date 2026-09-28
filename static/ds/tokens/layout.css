@@ -1,0 +1,44 @@
+/* Kangoolutions — Spacing, Radius, Elevation, Motion, Flächenraster */
+
+:root{
+  /* Spacing (4px-Basis) */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:24px;
+  --space-6:32px;
+  --space-7:48px;
+  --space-8:64px;
+  --space-9:96px;
+
+  /* Radius — Buttons & Chips sind Pills, Karten weich gerundet,
+     Folien- und Social-Kacheln bleiben scharfkantig (Radius 0). */
+  --radius-none:0px;
+  --radius-sm:6px;
+  --radius-md:10px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --radius-pill:999px;
+
+  /* Elevation — navy-getönte Schatten, nie schwarz */
+  --shadow-xs:0 1px 2px rgba(40,45,90,0.06);
+  --shadow-sm:0 1px 3px rgba(40,45,90,0.08),0 1px 2px rgba(40,45,90,0.05);
+  --shadow-md:0 4px 14px rgba(40,45,90,0.10);
+  --shadow-lg:0 12px 32px rgba(40,45,90,0.14);
+  --shadow-overlay:0 24px 64px rgba(40,45,90,0.22);
+  --shadow-social:0 24px 70px rgba(40,45,90,0.22);
+
+  /* Motion */
+  --ease-out:cubic-bezier(0.22,1,0.36,1); /* @kind other */
+  --duration-fast:140ms; /* @kind other */
+  --duration-base:220ms; /* @kind other */
+
+  /* Akzentkante — 6px farbige Kante oben/links auf Kacheln */
+  --accent-edge:6px;
+
+  /* Folienraster 1920×1080 */
+  --slide-margin:120px;
+  --slide-content-top:347px;
+  --slide-footer-bottom:28px;
+}

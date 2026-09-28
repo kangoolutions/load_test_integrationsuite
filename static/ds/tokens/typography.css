@@ -1,0 +1,39 @@
+/* Kangoolutions — Typografie.
+   H1 & Display: Helvetica Neue Bold · Kicker/H2–H4, Body, UI: Poppins · Daten: IBM Plex Mono */
+
+:root{
+  /* Display — Cover, Hero */
+  --type-display-xl:var(--weight-display) 64px/1.05 var(--font-display);
+  --type-display:var(--weight-display) 48px/1.08 var(--font-display);
+  --letter-display:-0.015em;
+
+  /* Headings — Helvetica Neue Bold ausschliesslich für H1 (inkl. Display).
+     Muster: H2 (Poppins-Kicker, Versalien) steht ÜBER H1.
+     <h2>UNSER AKTUELLES KAPITEL</h2> → dann <h1>Wo wir heute stehen.</h1> */
+  --type-h1:var(--weight-display) 36px/1.15 var(--font-display);
+  --type-h2:var(--weight-demibold) 14px/1.4 var(--font-body); /* Kicker: uppercase + --letter-h2 */
+  --letter-h2:0.22em;
+  --type-h3:var(--weight-demibold) 22px/1.3 var(--font-body);
+  --type-h4:var(--weight-demibold) 18px/1.35 var(--font-body);
+
+  /* Overline — kleinere Variante des Kickers */
+  --type-overline:var(--weight-demibold) 13px/1.4 var(--font-body);
+  --letter-overline:0.22em;
+
+  /* Body */
+  --type-body-lg:var(--weight-regular) 18px/1.65 var(--font-body);
+  --type-body:var(--weight-regular) 16px/1.6 var(--font-body);
+  --type-body-sm:var(--weight-regular) 14px/1.55 var(--font-body);
+  --type-caption:var(--weight-regular) 12.5px/1.45 var(--font-body);
+
+  /* UI */
+  --type-ui:var(--weight-medium) 14px/1.4 var(--font-body);
+  --type-ui-sm:var(--weight-medium) 13px/1.35 var(--font-body);
+  --type-button:var(--weight-demibold) 15px/1 var(--font-body);
+
+  /* Mono — Daten, Ziffern, Code */
+  --type-mono-lg:var(--weight-medium) 28px/1.2 var(--font-mono);
+  --type-mono:var(--weight-regular) 14px/1.6 var(--font-mono);
+  --type-mono-sm:var(--weight-regular) 12.5px/1.5 var(--font-mono);
+  --numeric-features:"tnum" 1,"lnum" 1; /* @kind font */
+}
